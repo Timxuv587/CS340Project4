@@ -41,21 +41,7 @@ def scan(input, output):
         for element in insecure_http:
             if element.startswith("HTTP"):
                 dict[line]["insecure_http"] = True
-        print(dict)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     output_f = open(output, "w")
     json.dump(dict, output_f, sort_keys=True, indent=4)
+
+scan(sys.argv[1],sys.argv[2])
