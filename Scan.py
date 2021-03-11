@@ -3,6 +3,7 @@ import time
 import subprocess
 import re
 import requests
+import sys
 #import http
 def scan(input, output):
     dict = {}
