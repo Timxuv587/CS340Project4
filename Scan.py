@@ -41,6 +41,7 @@ def scan(input, output):
         for element in insecure_http:
             if element.startswith("HTTP"):
                 dict[line]["insecure_http"] = True
+        print(dict)
 
 
 
