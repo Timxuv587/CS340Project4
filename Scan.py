@@ -92,7 +92,12 @@ def get_redirect_to(url):
 
 def get_hst(url):
     lst = openssl_get_header(url)
-    return lst[0]
+    result = ""
+    for h in lst:
+        if h.split(" ")[0] == "Strict-Transport-Security":
+            result = h.split(" ")[1]
+            print(result)
+    return result
 
 def openssl_get_header(url):
     req = subprocess.Popen(["openssl", "s_client", "-quiet", "-connect", url+":443"],stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
