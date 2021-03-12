@@ -94,7 +94,7 @@ def get_hst(url):
     lst = openssl_get_header(url)
     result = ""
     for h in lst:
-        if h.split(" ")[0] == "Strict-Transport-Security":
+        if h.split(": ")[0] == "Strict-Transport-Security":
             result = h.split(": ")[1]
             print(result)
     return result
