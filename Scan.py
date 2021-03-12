@@ -95,7 +95,7 @@ def get_hst(url):
     result = ""
     for h in lst:
         if h.split(" ")[0] == "Strict-Transport-Security":
-            result = h.split(" ")[1]
+            result = h.split(": ")[1]
             print(result)
     return result
 
