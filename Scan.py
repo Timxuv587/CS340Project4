@@ -86,10 +86,10 @@ def Scan(input, output):
     json.dump(dict, output_f, sort_keys=True, indent=4)
 
 def get_redirect_to(url):
-    #https://stackoverflow.com/questions/33684356/how-to-capture-the-output-of-openssl-in-python , "GET", "/", "HTTP/1.0","Host:", url
+    #https://stackoverflow.com/questions/33684356/how-to-capture-the-output-of-openssl-in-python
     req = subprocess.Popen(["openssl", "s_client", "-crlf", "-connect", url+":443"],stdout=subprocess.PIPE)
-    output, error = req.communicate()
-    print(result)
+    output, error = req.communicate("GET / HTTP/1.0 \nHost: " + url+"\n\n")
+    print(output)
     return ""
 
 get_redirect_to(sys.argv[1])
