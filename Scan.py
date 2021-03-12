@@ -89,7 +89,7 @@ def get_redirect_to(url):
     #https://stackoverflow.com/questions/33684356/how-to-capture-the-output-of-openssl-in-python
     req = subprocess.Popen(["openssl", "s_client", "-crlf", "-connect", url+":443"],stdin=subprocess.PIPE, stdout=subprocess.PIPE)
     output, error = req.communicate(bytes("GET / HTTP/1.0 \nHost: " + url+"\n\n\n",encoding="utf-8"))
-    print(output)
+    print(output.decode())
     return ""
 
 get_redirect_to(sys.argv[1])
