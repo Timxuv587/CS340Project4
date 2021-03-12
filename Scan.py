@@ -86,8 +86,9 @@ def Scan(input, output):
     json.dump(dict, output_f, sort_keys=True, indent=4)
 
 def get_redirect_to(url):
-    result = subprocess.check_output(["curl", url],
+    result = subprocess.check_output(["openssl", "s_client", "-crlf", "-connect", url+":443"],
       timeout=2, stderr=subprocess.STDOUT).decode("utf-8")
+    
     print(result)
     return ""
 
