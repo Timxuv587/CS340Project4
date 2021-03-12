@@ -87,11 +87,11 @@ def Scan(input, output):
 
 def get_redirect_to(url):
     #https://stackoverflow.com/questions/33684356/how-to-capture-the-output-of-openssl-in-python
-    lst = openssl_get(url)
+    lst = openssl_get_header(url)
     return lst[0]
 
 def get_hst(url):
-    lst = openssl_get(url)
+    lst = openssl_get_header(url)
     return lst[0]
 
 def openssl_get_header(url):
