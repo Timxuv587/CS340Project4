@@ -87,11 +87,18 @@ def Scan(input, output):
 
 def get_redirect_to(url):
     #https://stackoverflow.com/questions/33684356/how-to-capture-the-output-of-openssl-in-python
+    lst = openssl_get(url)
+    return lst[0]
+
+def get_hst(url):
+    lst = openssl_get(url)
+    return lst[0]
+
+def openssl_get_header(url):
     req = subprocess.Popen(["openssl", "s_client", "-quiet", "-connect", url+":443"],stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     output, error = req.communicate(bytes("GET / HTTP/1.0\r\nHost: " + url+"\r\n\r\n",encoding="utf-8"), timeout=2)
-    redirect = False
     output = output.decode().split("\r\n\r\n")[0].split("\r\n")
-    print(output[0])
-    return redirect
+    print(output)
+    return output
 
-get_redirect_to(sys.argv[1])
+get_hst(sys.argv[1])
