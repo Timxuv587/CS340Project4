@@ -51,7 +51,9 @@ def get_hst(url):
         return None
 
 def get_tls_version(url):
-    return []
+    result = []
+    map_get_TLS(url)
+    return result
 
 def get_ca(url):
     return openssl_get_ca(url)
@@ -63,7 +65,22 @@ def openssl_get_header(url):
         output, error = req.communicate(bytes("GET / HTTP/1.0\r\nHost: " + url+"\r\n\r\n",encoding="utf-8"), timeout=2)
         output = output.decode(errors='ignore').split("\r\n\r\n")[0].split("\r\n")
         return output
-    except TimeoutExpired:
+    except subprocess.TimeoutExpired:
+        return None
+    except Exception as e:
+        print(e)
+        return None
+
+def nmap_get_TLS(url):
+    try:
+        TLS_lst = ["SSLv2:", "SSLv3:", "TLSv1.0:", "TLSv1.1:", "TLSv1.2:"]
+        req = subprocess.Popen(["nmap", "--script", "ssl-enum-ciphers", "-p", "443", url],stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        output, error = req.communicate(timeout=2)
+        output = output.decode()
+        lst = output.split('\n|')
+        print(lst)
+        return output
+    except subprocess.TimeoutExpired:
         return None
     except Exception as e:
         print(e)
@@ -75,7 +92,7 @@ def openssl_get_TLSv1_3(url):
         output, error = req.communicate(timeout=2)
         output = output.decode(errors='ignore')
         return output
-    except TimeoutExpired:
+    except subprocess.TimeoutExpired:
         return None
     except Exception as e:
         print(e)
@@ -89,10 +106,9 @@ def openssl_get_ca(url):
         for line in output:
             if line[0:17] == "Certificate chain":
                 result = line.split("O = ")[-1].split(",")[0]
-                print(result)
                 return result
         return None
-    except TimeoutExpired:
+    except subprocess.TimeoutExpired:
         return None
     except Exception as e:
         print(e)
@@ -104,4 +120,6 @@ print("redirect")
 print(get_redirect_to(sys.argv[1]))
 print("ca")
 print(get_ca(sys.argv[1]))
+print("tls")
+print(get_tls_version(sys.argv[1]))
 #scan(sys.argv[1], sys.argv[2]):
