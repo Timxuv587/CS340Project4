@@ -22,10 +22,8 @@ def get_redirect_to(url):
     lst = openssl_get_header(url)
     if lst != None:
         if int(lst[0][9:12]) == 301:
-            print(lst)
             return True
         else:
-            print("False")
             return False
     else:
         return None
@@ -42,16 +40,12 @@ def get_hst(url):
             location = location.split("://")[1]
             if location[-1] == "/":
                 location = location[0:len(location)-1]
-            print(location)
             lst = openssl_get_header(location)
-            print(lst)
         result = False
         for h in lst:
             if h.split(": ")[0] == "Strict-Transport-Security":
-                print(h)
                 result = True
                 break
-        print(result)
         return result
     else:
         return None
@@ -70,6 +64,8 @@ def openssl_get_header(url):
         output, error = req.communicate(bytes("GET / HTTP/1.0\r\nHost: " + url+"\r\n\r\n",encoding="utf-8"), timeout=2)
         output = output.decode(errors='ignore').split("\r\n\r\n")[0].split("\r\n")
         return output
+    except TimeoutExpired:
+        return None
     except Exception as e:
         print(e)
         return None
@@ -80,6 +76,8 @@ def openssl_get_TLSv1_3(url):
         output, error = req.communicate(timeout=2)
         output = output.decode(errors='ignore')
         return output
+    except TimeoutExpired:
+        return None
     except Exception as e:
         print(e)
         return None
@@ -95,11 +93,16 @@ def openssl_get_ca(url):
                 print(result)
                 return result
         return None
+    except TimeoutExpired:
+        return None
     except Exception as e:
         print(e)
         return None
 
-get_hst(sys.argv[1])
-#get_redirect_to(sys.argv[1])
-#get_ca(sys.argv[1])
+print("hst")
+print(get_hst(sys.argv[1]))
+print("redirect")
+print(get_redirect_to(sys.argv[1]))
+print("ca")
+print(get_ca(sys.argv[1]))
 #scan(sys.argv[1], sys.argv[2]):
