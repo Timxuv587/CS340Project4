@@ -85,11 +85,10 @@ def openssl_get_ca(url):
     try:
         req = subprocess.Popen(["openssl", "s_client", "-connect", url+":443"],stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, error = req.communicate(timeout=2)
-        print(output.decode(errors='ignore'))
-        output = output.decode(errors='ignore').split("\n")
+        output = output.decode(errors='ignore').split("---\n")
         print(output)
         for line in output:
-            if output[0:4] == "depth":
+            if output.index("Certificate chain\n") == 0:
                 result = line.split("O = ")[1].split(",")[0]
                 print(result)
                 return result
