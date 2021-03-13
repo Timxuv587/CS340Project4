@@ -73,12 +73,15 @@ def openssl_get_header(url):
 
 def nmap_get_TLS(url):
     try:
-        TLS_lst = ["SSLv2:", "SSLv3:", "TLSv1.0:", "TLSv1.1:", "TLSv1.2:"]
+        TLS_lst = ["SSLv2", "SSLv3", "TLSv1.0", "TLSv1.1", "TLSv1.2"]
         req = subprocess.Popen(["nmap", "--script", "ssl-enum-ciphers", "-p", "443", url],stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, error = req.communicate(timeout=2)
         output = output.decode()
         lst = output.split('\n|')
-        print(lst)
+        result = []
+        for h in lst:
+            if h.strip().split(":")[0] in TLS_lst:
+                result.append(h)
         return output
     except subprocess.TimeoutExpired:
         return None
