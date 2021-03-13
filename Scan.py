@@ -52,6 +52,8 @@ def get_hst(url):
 
 def get_tls_version(url):
     result = nmap_get_TLS(url)
+    if openssl_get_TLSv1_3(url):
+        result.append("TLSv1.3")
     return result
 
 def get_ca(url):
@@ -93,7 +95,10 @@ def openssl_get_TLSv1_3(url):
         req = subprocess.Popen(["openssl", "s_client", "-tls1_3", "-connect", url+":443"],stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, error = req.communicate(timeout=2)
         output = output.decode(errors='ignore')
-        return output
+        if "TLSv1.3" in output.split(", "):
+            return True
+        else:
+            return False
     except subprocess.TimeoutExpired:
         return None
     except Exception as e:
