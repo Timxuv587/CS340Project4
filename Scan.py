@@ -80,6 +80,7 @@ def nmap_get_TLS(url):
         lst = output.split('\n|')
         result = []
         for h in lst:
+            print(h.strip().split(":")[0] )
             if h.strip().split(":")[0] in TLS_lst:
                 result.append(h)
         return output
