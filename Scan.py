@@ -90,8 +90,10 @@ def get_redirect_to(url):
     lst = openssl_get_header(url)
     if lst != None:
         if int(lst[0][9:11]) == 301:
+            print(lst)
             return True
         else:
+            print("False")
             return False
     else:
         return None
@@ -99,24 +101,65 @@ def get_redirect_to(url):
 def get_hst(url):
     lst = openssl_get_header(url)
     if lst != None:
-        result = ""
+        while int(lst[0][9:11]) == 301:
+            location = ""
+            for h in lst:
+                if h.split(": ")[0] == "Location":
+                                result = h.split(": ")[1]
+                                break
+            lst = openssl_get_header(lst)
+        result = False
         for h in lst:
             if h.split(": ")[0] == "Strict-Transport-Security":
-                result = h.split(": ")[1]
-                print(result)
+                print(h)
+                result = True
+                break
         return result
     else:
         return None
+
+def get_tls_version(url):
+    return []
+
+def get_ca(url):
+    return openssl_get_ca(url)
+
 
 def openssl_get_header(url):
     try:
         req = subprocess.Popen(["openssl", "s_client", "-quiet", "-connect", url+":443"],stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, error = req.communicate(bytes("GET / HTTP/1.0\r\nHost: " + url+"\r\n\r\n",encoding="utf-8"), timeout=2)
         output = output.decode(errors='ignore').split("\r\n\r\n")[0].split("\r\n")
-        print(output)
         return output
     except Exception as e:
         print(e)
         return None
 
+def openssl_get_TLSv1_3(url):
+    try:
+        req = subprocess.Popen(["openssl", "s_client", "-tls1_3", "-connect", url+":443"],stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        output, error = req.communicate(timeout=2)
+        output = output.decode(errors='ignore')
+        return output
+    except Exception as e:
+        print(e)
+        return None
+
+def openssl_get_ca(url):
+    try:
+        req = subprocess.Popen(["openssl", "s_client", "-connect", url+":443"],stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        output, error = req.communicate(timeout=2)
+        output = output.decode(errors='ignore').split("\r\n")
+        for line in output:
+            if output[0:4] == "depth":
+                result = line.split("O = ")[1].split(",")[0]
+                print(result)
+                return result
+        return None
+    except Exception as e:
+        print(e)
+        return None
+
 get_hst(sys.argv[1])
+get_redirect_to(sys.argv[1])
+get_ca(sys.argv[1])
