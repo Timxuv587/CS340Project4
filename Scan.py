@@ -88,22 +88,34 @@ def Scan(input, output):
 def get_redirect_to(url):
     #https://stackoverflow.com/questions/33684356/how-to-capture-the-output-of-openssl-in-python
     lst = openssl_get_header(url)
-    return lst[0]
+    if lst != None:
+        if int(lst[0][9:11]) == 301:
+            return True
+        else:
+            return False
+    else:
+        return None
 
 def get_hst(url):
     lst = openssl_get_header(url)
-    result = ""
-    for h in lst:
-        if h.split(": ")[0] == "Strict-Transport-Security":
-            result = h.split(": ")[1]
-            print(result)
-    return result
+    if lst != None:
+        result = ""
+        for h in lst:
+            if h.split(": ")[0] == "Strict-Transport-Security":
+                result = h.split(": ")[1]
+                print(result)
+        return result
+    else:
+        return None
 
 def openssl_get_header(url):
-    req = subprocess.Popen(["openssl", "s_client", "-quiet", "-connect", url+":443"],stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    output, error = req.communicate(bytes("GET / HTTP/1.0\r\nHost: " + url+"\r\n\r\n",encoding="utf-8"), timeout=2)
-    output = output.decode().split("\r\n\r\n")[0].split("\r\n")
-    print(output)
-    return output
+    try:
+        req = subprocess.Popen(["openssl", "s_client", "-quiet", "-connect", url+":443"],stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        output, error = req.communicate(bytes("GET / HTTP/1.0\r\nHost: " + url+"\r\n\r\n",encoding="utf-8"), timeout=2)
+        output = output.decode().split("\r\n\r\n")[0].split("\r\n")
+        print(output)
+        return output
+    except Exception as e:
+        return None
 
 get_hst(sys.argv[1])
