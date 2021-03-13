@@ -33,15 +33,14 @@ def get_redirect_to(url):
 def get_hst(url):
     lst = openssl_get_header(url)
     if lst != None:
-        print(lst[0])
         while int(lst[0][9:12]) == 301:
             location = ""
             for h in lst:
                 if h.split(": ")[0] == "Location":
                     print(location)
-                    result = h.split(": ")[1]
+                    location = h.split(": ")[1]
                     break
-            lst = openssl_get_header(lst)
+            lst = openssl_get_header(location)
         result = False
         for h in lst:
             if h.split(": ")[0] == "Strict-Transport-Security":
