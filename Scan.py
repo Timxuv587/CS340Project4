@@ -116,6 +116,7 @@ def openssl_get_header(url):
         print(output)
         return output
     except Exception as e:
+        print(e)
         return None
 
 get_hst(sys.argv[1])
