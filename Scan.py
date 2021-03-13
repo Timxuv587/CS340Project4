@@ -80,7 +80,7 @@ def nmap_get_TLS(url):
         result = []
         for h in lst:
             if h.strip().split(":")[0] in TLS_lst:
-                result.append(h)
+                result.append(h.strip().split(":")[0])
         return result
     except subprocess.TimeoutExpired:
         return None
