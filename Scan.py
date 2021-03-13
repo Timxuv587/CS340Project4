@@ -52,7 +52,7 @@ def get_hst(url):
 
 def get_tls_version(url):
     result = []
-    map_get_TLS(url)
+    nmap_get_TLS(url)
     return result
 
 def get_ca(url):
