@@ -54,7 +54,6 @@ def get_tls_version(url):
     return []
 
 def get_ca(url):
-    print(openssl_get_ca(url))
     return openssl_get_ca(url)
 
 
@@ -87,6 +86,7 @@ def openssl_get_ca(url):
         req = subprocess.Popen(["openssl", "s_client", "-connect", url+":443"],stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, error = req.communicate(timeout=2)
         output = output.decode(errors='ignore').split("\r\n")
+        print(output)
         for line in output:
             if output[0:4] == "depth":
                 result = line.split("O = ")[1].split(",")[0]
