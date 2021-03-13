@@ -51,8 +51,7 @@ def get_hst(url):
         return None
 
 def get_tls_version(url):
-    result = []
-    nmap_get_TLS(url)
+    result = nmap_get_TLS(url)
     return result
 
 def get_ca(url):
@@ -80,10 +79,9 @@ def nmap_get_TLS(url):
         lst = output.split('\n|')
         result = []
         for h in lst:
-            print(h.strip().split(":")[0] )
             if h.strip().split(":")[0] in TLS_lst:
                 result.append(h)
-        return output
+        return result
     except subprocess.TimeoutExpired:
         return None
     except Exception as e:
