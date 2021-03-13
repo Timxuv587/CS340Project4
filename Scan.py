@@ -39,7 +39,9 @@ def get_hst(url):
                 if h.split(": ")[0] == "Location":
                     location = h.split(": ")[1]
                     break
+            print(location)
             lst = openssl_get_header(location.split("://")[1])
+            print(lst)
         result = False
         for h in lst:
             if h.split(": ")[0] == "Strict-Transport-Security":
