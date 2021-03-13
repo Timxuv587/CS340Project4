@@ -87,7 +87,8 @@ def openssl_get_ca(url):
         output, error = req.communicate(timeout=2)
         output = output.decode(errors='ignore').split("---\n")
         for line in output:
-            if output[0:17] == "Certificate chain":
+            print(output[0:17])
+            if output[0:18] == "Certificate chain":
                 result = line.split("O = ")[-1].split(",")[0]
                 print(result)
                 return result
