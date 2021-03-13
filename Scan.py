@@ -85,6 +85,7 @@ def openssl_get_ca(url):
     try:
         req = subprocess.Popen(["openssl", "s_client", "-connect", url+":443"],stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, error = req.communicate(timeout=2)
+        print(output.decode(errors='ignore'))
         output = output.decode(errors='ignore').split("\n")
         print(output)
         for line in output:
