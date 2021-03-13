@@ -21,7 +21,7 @@ def get_redirect_to(url):
     #https://stackoverflow.com/questions/33684356/how-to-capture-the-output-of-openssl-in-python
     lst = openssl_get_header(url)
     if lst != None:
-        if int(lst[0][9:11]) == 301:
+        if int(lst[0][9:12]) == 301:
             print(lst)
             return True
         else:
@@ -33,8 +33,7 @@ def get_redirect_to(url):
 def get_hst(url):
     lst = openssl_get_header(url)
     if lst != None:
-        print(int(lst[0][9:11]))
-        while int(lst[0][9:11]) == 301:
+        while int(lst[0][9:12]) == 301:
             location = ""
             for h in lst:
                 if h.split(": ")[0] == "Location":
