@@ -37,8 +37,9 @@ def get_hst(url):
             location = ""
             for h in lst:
                 if h.split(": ")[0] == "Location":
-                                result = h.split(": ")[1]
-                                break
+                    print(location)
+                    result = h.split(": ")[1]
+                    break
             lst = openssl_get_header(lst)
         result = False
         for h in lst:
@@ -46,6 +47,7 @@ def get_hst(url):
                 print(h)
                 result = True
                 break
+        print(result)
         return result
     else:
         return None
@@ -54,6 +56,7 @@ def get_tls_version(url):
     return []
 
 def get_ca(url):
+    print(openssl_get_ca(url))
     return openssl_get_ca(url)
 
 
@@ -93,6 +96,6 @@ def openssl_get_ca(url):
         return None
 
 get_hst(sys.argv[1])
-get_redirect_to(sys.argv[1])
-get_ca(sys.argv[1])
+#get_redirect_to(sys.argv[1])
+#get_ca(sys.argv[1])
 #scan(sys.argv[1], sys.argv[2]):
