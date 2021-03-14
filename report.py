@@ -33,8 +33,8 @@ def information(dict):
     align = []
     valgin = []
     first_row = []
-    domains = list[dict.keys()]
-    headers = list[dict[domains].keys()]
+    domains = list(dict.keys())
+    headers = list(dict[domains].keys())
     for i in headers:
         align.append("l")
         valign.append("top")
