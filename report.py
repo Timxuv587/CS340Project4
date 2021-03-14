@@ -12,7 +12,6 @@ import sys
 def report(input, output):
     f = open(input, "r")
     dict = json.load(f)
-    print(dict)
     #for line in f.readlines():
         #get_ipv4_addresses(url)
         #get_ipv6_addresses(url)
@@ -35,7 +34,7 @@ def information(dict):
     valgin = []
     first_row = []
     domains = list(dict.keys())
-    headers = list(dict[domains].keys())
+    headers = list(dict[domains[0]].keys())
     for i in headers:
         align.append("l")
         valign.append("top")
