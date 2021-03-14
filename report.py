@@ -30,14 +30,14 @@ def report(input, output):
 
 def information(dict):
     table = Texttable()
-    align = []
-    valign = []
+    align = ["l"]
+    valign = ["t"]
     first_row = []
     domains = list(dict.keys())
     headers = list(dict[domains[0]].keys())
     for i in headers:
         align.append("l")
-        valign.append("top")
+        valign.append("t")
     table.set_cols_align(align)
     table.set_cols_valign(valign)
     rows = []
