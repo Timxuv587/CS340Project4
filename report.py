@@ -10,7 +10,8 @@ import sys
 #import http
 
 def report(json, output):
-    dict = open(json, "r")
+    f = open(json, "r")
+    dict = json.load(f)
     #for line in f.readlines():
         #get_ipv4_addresses(url)
         #get_ipv6_addresses(url)
