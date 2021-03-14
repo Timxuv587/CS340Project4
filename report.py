@@ -40,7 +40,7 @@ def information(dict):
         valign.append("t")
     table.set_cols_align(align)
     table.set_cols_valign(valign)
-    rows = []
+    rows = ["Domain"]
     rows.append(headers)
     for d in domains:
         row = []
