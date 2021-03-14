@@ -13,7 +13,7 @@ def scan(input, output):
         print(url)
         dict[url] = {}
         get_scan_time(url)
-        #get_ipv4_addresses(url)
+        get_ipv4_addresses(url)
         #get_ipv6_addresses(url)
         #get_http_server(url)
         #check_insecure_http(url)
