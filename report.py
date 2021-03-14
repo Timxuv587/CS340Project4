@@ -4,7 +4,7 @@ import subprocess
 import re
 import requests
 import maxminddb
-import texttable
+from texttable import Texttable
 
 import sys
 #import http
