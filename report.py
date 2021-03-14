@@ -9,8 +9,8 @@ from texttable import Texttable
 import sys
 #import http
 
-def report(json, output):
-    f = open(json, "r")
+def report(input, output):
+    f = open(input, "r")
     dict = json.load(f)
     #for line in f.readlines():
         #get_ipv4_addresses(url)
@@ -21,22 +21,34 @@ def report(json, output):
         #get_hst(url)
         #get_tls_version(url)
         #get_ca(url)
-    print(dict)
     output_f = open(output, "w")
-    output_f.write(information())
+    output_f.write(information(dict))
     output_f.close()
     #output_f = open(output, "w")
     #json.dump(dict, output_f, sort_keys=True, indent=4)
 
 
-def information():
+def information(dict):
     table = Texttable()
-    table.set_cols_align(["l", "r", "c"])
-    table.set_cols_valign(["t", "m", "b"])
-    table.add_rows([["Name", "Age", "Nickname"],
-                    ["Mr\nXavier\nHuon", 32, "Xav'"],
-                    ["Mr\nBaptiste\nClement", 1, "Baby"],
-                    ["Mme\nLouise\nBourgeau", 28, "Lou\n\nLoue"]])
+    align = []
+    valgin = []
+    first_row = []
+    domains = list[dict.keys()]
+    headers = list[dict[domains].keys()]
+    for i in headers:
+        align.append("l")
+        valign.append("top")
+    table.set_cols_align(align)
+    table.set_cols_valign(valign)
+    rows = []
+    rows.append(headers)
+    for d in domains:
+        row = []
+        row.append(d)
+        for h in headers:
+            row.append(str(dict[d][h]))
+        rows.append(row)
+    table.add_rows(rows)
     return table.draw() + "\n"
 
 
