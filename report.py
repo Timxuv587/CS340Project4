@@ -12,6 +12,7 @@ import sys
 def report(input, output):
     f = open(input, "r")
     dict = json.load(f)
+    print(dict)
     #for line in f.readlines():
         #get_ipv4_addresses(url)
         #get_ipv6_addresses(url)
