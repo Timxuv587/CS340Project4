@@ -31,7 +31,7 @@ def report(input, output):
 def information(dict):
     table = Texttable()
     align = []
-    valgin = []
+    valign = []
     first_row = []
     domains = list(dict.keys())
     headers = list(dict[domains[0]].keys())
