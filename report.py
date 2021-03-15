@@ -40,7 +40,9 @@ def information(dict):
         valign.append("t")
     table.set_cols_align(align)
     table.set_cols_valign(valign)
-    rows = ["Domain"]
+    rows = []
+    frist_line = copy(headers)
+    first_line.append("")
     rows.append(headers)
     for d in domains:
         row = []
@@ -48,6 +50,7 @@ def information(dict):
         for h in headers:
             row.append(str(dict[d][h]))
         rows.append(row)
+        print(row)
     table.add_rows(rows)
     return table.draw() + "\n"
 
