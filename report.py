@@ -27,7 +27,13 @@ def report(input, output):
     output_f.close()
     #output_f = open(output, "w")
     #json.dump(dict, output_f, sort_keys=True, indent=4)
-
+def root_ca(dict):
+    table = Texttable()
+    align = ["l"]
+    valign = ["t"]
+    first_row = []
+    domains = list(dict.keys())
+    
 
 def information(dict):
     table = Texttable()
