@@ -5,6 +5,7 @@ import re
 import requests
 import maxminddb
 from texttable import Texttable
+import copy
 
 import sys
 #import http
@@ -41,9 +42,9 @@ def information(dict):
     table.set_cols_align(align)
     table.set_cols_valign(valign)
     rows = []
-    frist_line = copy(headers)
-    first_line.append("")
-    rows.append(headers)
+    first_line = copy.copy(headers)
+    first_line.insert(0, "Name")
+    rows.append(first_line)
     for d in domains:
         row = []
         row.append(d)
